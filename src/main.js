@@ -7,6 +7,7 @@ import './styles/index.less'
 // 加载注册 Vant 组件
 import Vant from 'vant'
 import 'vant/lib/index.css'
+
 // 加载执行 lib-flexible 模块，用于设置 rem 基准值
 import 'amfe-flexible'
 
