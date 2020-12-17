@@ -45,7 +45,7 @@
           round size="small"
           type="default"
           native-type="button"
-          @click="sendSmsBeforeLogin"
+          @click="sendSms"
         >发送验证码</van-button>
       </template>
       </van-field>
@@ -112,7 +112,7 @@ export default {
       // console.log('表单提交事件：', values)
       // 1. 获取表单数据
       const user = this.user
-      // 2. 表单验证
+      // 2. 表单验证，通过在 data 中定义验证规则进行
       // 加载 验证表单的 提示
       // 注意：在组件中必须通过 this.$toast 方法来调用 toast 组件
       this.$toast.loading({
@@ -129,13 +129,16 @@ export default {
         // 登录成功，返回的对象中包含成功的状态码，同时对象的 data 属性里 还有一个 data 属性，里面有 token
         // const res = await login(user)
         // console.log('登录成功', res)
-        await login(user)
+        const { data } = await login(user)
+        // data.data 中包括身份令牌 token 和 刷新令牌 refresh_token，都要存储起来
         this.$toast.success('登录成功！')
+        // 登录成功后，将 data.data 存入 Vuex 中
+        this.$store.commit('setUser', data.data)
       } catch (err) {
         // 登录失败，err 值包含失败的状态码
         // 失败的状态码
         // console.log(err.response.status)
-        if (err.response.status) {
+        if (err.response.status === 400) {
           // console.log('手机号码或验证码有误，请重新输入！', err)
           this.$toast.fail('手机号码或验证码有误，请重新输入！')
         } else {
@@ -146,8 +149,8 @@ export default {
       }
       // 4. 根据请求相应的结果处理后续的操作
     },
-    // 登录按钮的点击事件
-    async sendSmsBeforeLogin() {
+    // 登录按钮的点击事件，即发送短信的事件
+    async sendSms() {
       // 1.表单预校验，校验手机号
       try {
         await this.$refs.loginFormRef.validate('mobile')
@@ -160,7 +163,7 @@ export default {
         // const res = await sendSms(this.user.mobile)
         // console.log('验证码已发送！', res)
         await sendSms(this.user.mobile)
-        this.$toast('验证码已发送！')
+        this.$toast('验证码发送成功！')
       } catch (err) {
         if (err.response.status === 429) {
           return this.$toast('验证码发送过于频繁！')

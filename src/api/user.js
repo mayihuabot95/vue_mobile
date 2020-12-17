@@ -3,7 +3,7 @@
  */
 import request from '@/utils/request'
 
-// 用户登录的请求模块
+// 按需导出用户登录的请求模块
 export const login = data => {
   return request({
     method: 'POST',
@@ -12,7 +12,7 @@ export const login = data => {
   })
 }
 
-// 获取短信验证码的请求模块
+// 按需导出获取短信验证码的请求模块
 // 注意：接口访问次数受限，每手机号每分钟1次
 export const sendSms = mobile => {
   return request({
