@@ -1,7 +1,15 @@
 <template>
   <div class="login-container">
     <!-- 导航栏 -->
-    <van-nav-bar class="page-nav-bar" title="登录" />
+    <van-nav-bar class="page-nav-bar" title="登录">
+      <!-- 导航栏左侧的返回图标，用于返回上一页 -->
+      <van-icon
+        slot="left"
+        name="arrow-left"
+        color="#fff"
+        @click="$router.back()"
+      />
+    </van-nav-bar>
     <!-- 登录表单 -->
     <!--
       表单验证：
@@ -38,7 +46,7 @@
         />
         <!-- time 属性值是倒计时的时长 -->
         <!-- ***注意：在表单中，除了提交按钮外，可能还有一些其他的功能性按钮，如发送验证码按钮。在使用时，
-        要注意将native-type设置为button，否则会触发表单提交。 -->
+        要注意将native-type设置为button，否则会触发表单提交 -->
         <van-button
           v-else
           class="send-sms-btn"
@@ -63,7 +71,7 @@
 </template>
 
 <script>
-// 按需导入login请求的方法
+// 按需导入 用户相关 请求模块 的方法
 import { login, sendSms } from '../../api/user.js'
 
 export default {
@@ -132,6 +140,8 @@ export default {
         const { data } = await login(user)
         // data.data 中包括身份令牌 token 和 刷新令牌 refresh_token，都要存储起来
         this.$toast.success('登录成功！')
+        // 登录成功后，跳转到 我的 页面
+        this.$router.push('/my')
         // 登录成功后，将 data.data 存入 Vuex 中
         this.$store.commit('setUser', data.data)
       } catch (err) {
