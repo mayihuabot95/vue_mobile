@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <!-- ******补充知识点：解决 请求第三方图片资源 失败的问题 -->
+    <!-- 通过 meta 属性给全局配置，在发送网络请求时都不要在 Headers 中携带 referrer 字段 -->
+    <meta name="referrer" content="no-referrer" />
   </head>
   <body>
     <noscript>

@@ -11,6 +11,10 @@ import 'vant/lib/index.css'
 // 加载执行 lib-flexible 模块，用于动态设置 rem 基准值
 import 'amfe-flexible'
 
+// 加载 dayjs 初始化配置
+import './utils/dayjs'
+
+// 阻止在控制台中显示生产模式的消息
 Vue.config.productionTip = false
 
 Vue.use(Vant)
